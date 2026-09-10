@@ -10,6 +10,7 @@ interface ResultCellProps {
   userNum2: number | null;
   userOperation: OperationType | null;
   hasError?: boolean;
+  cellWidth?: number;
   onUpdate: (num1: number | null, num2: number | null, operation: OperationType | null) => void;
 }
 
@@ -19,6 +20,7 @@ export function ResultCell({
   userNum2,
   userOperation,
   hasError,
+  cellWidth = 76,
   onUpdate,
 }: ResultCellProps) {
   const [input1, setInput1] = useState(userNum1?.toString() ?? "");
@@ -57,29 +59,54 @@ export function ResultCell({
     onUpdate(userNum1, userNum2, newOp);
   };
 
+  const isCompact = cellWidth < 78;
+  const isMini = cellWidth < 68;
+
+  // Sizing and typography adapted to available width
+  const resultHeight = Math.max(34, Math.min(58, Math.round(cellWidth * 0.58)));
+  const inputHeight = Math.max(26, Math.min(38, Math.round(cellWidth * 0.42)));
+  const opWidth = isMini ? 15 : isCompact ? 18 : Math.min(26, Math.round(cellWidth * 0.25));
+
+  const resultFontSize = isMini ? 15 : isCompact ? 17 : cellWidth < 100 ? 20 : 24;
+  const inputFontSize = isMini ? 11 : isCompact ? 12 : 14;
+  const opFontSize = isMini ? 11 : isCompact ? 13 : 16;
+
   return (
-    <View className={cn("items-center gap-1", hasError && "opacity-70")}>
+    <View style={{ width: cellWidth }} className={cn("items-center gap-1", hasError && "opacity-70")}>
       {/* Número resultado grande */}
       <View
+        style={{ width: cellWidth, height: resultHeight }}
         className={cn(
-          "w-20 h-16 items-center justify-center rounded-lg bg-surface border",
+          "items-center justify-center rounded-lg bg-surface border",
           hasError ? "border-error" : "border-border"
         )}
       >
-        <Text className="text-2xl font-bold text-foreground">{resultValue}</Text>
+        <Text style={{ fontSize: resultFontSize }} className="font-bold text-foreground">
+          {resultValue}
+        </Text>
       </View>
 
-      {/* Tres celdas pequeñas para la solución */}
-      <View className="flex-row gap-1">
+      {/* Tres celdas para la solución */}
+      <View style={{ width: cellWidth }} className="flex-row gap-0.5 sm:gap-1 items-center justify-between">
         {/* Primera celda: primer número */}
-        <View className="w-12 h-10 items-center justify-center rounded bg-background border border-dashed border-muted">
+        <View
+          style={{ height: inputHeight }}
+          className="flex-1 items-center justify-center rounded bg-background border border-dashed border-muted min-w-0"
+        >
           <TextInput
             value={input1}
             onChangeText={handleNum1Change}
             keyboardType="number-pad"
             maxLength={3}
-            className="text-center font-semibold text-primary text-sm w-full h-full"
-            style={{ textAlignVertical: "center", paddingTop: 0, paddingBottom: 0 }}
+            className="text-center font-semibold text-primary w-full h-full p-0"
+            style={{
+              fontSize: inputFontSize,
+              textAlignVertical: "center",
+              paddingTop: 0,
+              paddingBottom: 0,
+              paddingLeft: 0,
+              paddingRight: 0,
+            }}
             placeholder=""
             placeholderTextColor="transparent"
           />
@@ -90,22 +117,35 @@ export function ResultCell({
           onPress={handleOperationToggle}
           style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
         >
-          <View className="w-8 h-10 items-center justify-center rounded bg-background border border-dashed border-muted">
-            <Text className="text-lg font-bold text-primary">
+          <View
+            style={{ width: opWidth, height: inputHeight }}
+            className="items-center justify-center rounded bg-background border border-dashed border-muted"
+          >
+            <Text style={{ fontSize: opFontSize }} className="font-bold text-primary text-center">
               {userOperation === null ? "" : userOperation === "sum" ? "+" : "×"}
             </Text>
           </View>
         </Pressable>
 
         {/* Tercera celda: segundo número */}
-        <View className="w-12 h-10 items-center justify-center rounded bg-background border border-dashed border-muted">
+        <View
+          style={{ height: inputHeight }}
+          className="flex-1 items-center justify-center rounded bg-background border border-dashed border-muted min-w-0"
+        >
           <TextInput
             value={input2}
             onChangeText={handleNum2Change}
             keyboardType="number-pad"
             maxLength={3}
-            className="text-center font-semibold text-primary text-sm w-full h-full"
-            style={{ textAlignVertical: "center", paddingTop: 0, paddingBottom: 0 }}
+            className="text-center font-semibold text-primary w-full h-full p-0"
+            style={{
+              fontSize: inputFontSize,
+              textAlignVertical: "center",
+              paddingTop: 0,
+              paddingBottom: 0,
+              paddingLeft: 0,
+              paddingRight: 0,
+            }}
             placeholder=""
             placeholderTextColor="transparent"
           />

@@ -134,8 +134,8 @@ export default function HomeScreen() {
 
   if (!gameState) {
     return (
-      <ScreenContainer className="p-6">
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScreenContainer className="px-4 py-6 sm:px-6 max-w-lg mx-auto w-full">
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
           <View className="flex-1 justify-center items-center gap-8">
             {/* Logo y título */}
             <View className="items-center gap-3">
@@ -198,9 +198,9 @@ export default function HomeScreen() {
   }
 
   return (
-    <ScreenContainer className="p-6">
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 gap-6">
+    <ScreenContainer className="px-2 py-3 sm:px-6 sm:py-6 max-w-lg mx-auto w-full">
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+        <View className="flex-1 gap-4 sm:gap-6">
           {/* Header con botón Home y temporizador */}
           <View className="flex-row justify-between items-center">
             <Pressable
