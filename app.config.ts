@@ -18,12 +18,18 @@ const env = {
 const config: ExpoConfig = {
   name: env.appName,
   slug: env.appSlug,
+  owner: "harpo77",
   version: "3.4.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
   scheme: env.scheme,
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
+  extra: {
+    eas: {
+      projectId: "805f16c5-30c3-4f7f-ac4d-4357eef1c2f8",
+    },
+  },
   ios: {
     supportsTablet: true,
     bundleIdentifier: env.iosBundleId,
